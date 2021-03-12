@@ -1,11 +1,11 @@
 <idea-plugin>
     <id>pl.zzpj.BasicIntelliJPlugin</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>BasicIntelliJPlugin</name>
+    <vendor email="none" url="none">ZZPJ</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    Basic plugin for IntelliJ IDEA IDE.<br>
+    <em>By: Artur Nowicki, Kacper Włodarczyk, Dawid Morka, Kamil Dębowski</em>
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -17,6 +17,9 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action class="pl.zzpj.HelloAction" id="SayHello" text="Say Hello">
+            <add-to-group group-id="ToolsMenu"/>
+            <add-to-group group-id="WelcomeScreen.QuickStart"/>
+        </action>
     </actions>
 </idea-plugin>
