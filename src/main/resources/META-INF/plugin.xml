@@ -4,7 +4,8 @@
     <vendor email="none" url="none">ZZPJ</vendor>
 
     <description><![CDATA[
-    Basic plugin for IntelliJ IDEA IDE.<br>
+    Basic calculator plugin for IntelliJ IDEA IDE.<br>
+    Calculator is available as a Tool Window anchored to the right side of the screen.<br>
     <em>By: Artur Nowicki, Kacper Włodarczyk, Dawid Morka, Kamil Dębowski</em>
     ]]></description>
 
@@ -13,13 +14,10 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <toolWindow id="Calculator" anchor="right" secondary="false" factoryClass="pl.zzpj.CalculatorToolWindowFactory"/>
     </extensions>
 
     <actions>
-        <action class="pl.zzpj.HelloAction" id="SayHello" text="Say Hello">
-            <add-to-group group-id="ToolsMenu"/>
-            <add-to-group group-id="WelcomeScreen.QuickStart"/>
-        </action>
+
     </actions>
 </idea-plugin>
