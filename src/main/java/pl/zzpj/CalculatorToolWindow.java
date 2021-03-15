@@ -1,8 +1,8 @@
 package pl.zzpj;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import static pl.zzpj.Calculator.Operation;
 
 public class CalculatorToolWindow {
@@ -42,12 +42,9 @@ public class CalculatorToolWindow {
     private void initComponents() {
         textField.setText(register);
 
-        ActionListener numButtonsListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                register += ((JButton) e.getSource()).getText();
-                textField.setText(register);
-            }
+        ActionListener numButtonsListener = e -> {
+            register += ((JButton) e.getSource()).getText();
+            textField.setText(register);
         };
 
         a7Button.addActionListener(numButtonsListener);
@@ -61,29 +58,26 @@ public class CalculatorToolWindow {
         a2Button.addActionListener(numButtonsListener);
         a0Button.addActionListener(numButtonsListener);
 
-        ActionListener opButtonsListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton sourceButton = (JButton) e.getSource();
-                if (register.length() > 0)
-                    calculator.setRegister(Long.parseLong(register));
-                else
-                    calculator.setRegister(0L);
+        ActionListener opButtonsListener = e -> {
+            JButton sourceButton = (JButton) e.getSource();
+            if (register.length() > 0)
+                calculator.setRegister(Float.parseFloat(register));
+            else
+                calculator.setRegister(0f);
 
-                if (sourceButton == addButton)
-                    calculator.setOperation(Operation.OP_ADD);
-                else if (sourceButton == subButton)
-                    calculator.setOperation(Operation.OP_SUB);
-                else if (sourceButton == mulButton)
-                    calculator.setOperation(Operation.OP_MUL);
-                else if (sourceButton == divButton)
-                    calculator.setOperation(Operation.OP_DIV);
-                else if (sourceButton == equalsButton)
-                    calculator.setOperation(Operation.OP_EQU);
+            if (sourceButton == addButton)
+                calculator.setOperation(Operation.OP_ADD);
+            else if (sourceButton == subButton)
+                calculator.setOperation(Operation.OP_SUB);
+            else if (sourceButton == mulButton)
+                calculator.setOperation(Operation.OP_MUL);
+            else if (sourceButton == divButton)
+                calculator.setOperation(Operation.OP_DIV);
+            else if (sourceButton == equalsButton)
+                calculator.setOperation(Operation.OP_EQU);
 
-                register = "";
-                textField.setText(calculator.getAccumulator().toString());
-            }
+            register = "";
+            textField.setText(calculator.getAccumulator().toString());
         };
         subButton.addActionListener(opButtonsListener);
         addButton.addActionListener(opButtonsListener);
@@ -91,27 +85,21 @@ public class CalculatorToolWindow {
         divButton.addActionListener(opButtonsListener);
         mulButton.addActionListener(opButtonsListener);
 
-        backspaceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (register.length() > 1) {
-                    register = register.substring(0, register.length() - 1);
-                    textField.setText(register);
-                }
-                else {
-                    register = "";
-                    textField.setText("0");
-                }
+        backspaceButton.addActionListener(e -> {
+            if (register.length() > 1) {
+                register = register.substring(0, register.length() - 1);
+                textField.setText(register);
             }
-        });
-
-        cButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calculator.reset();
+            else {
                 register = "";
                 textField.setText("0");
             }
+        });
+
+        cButton.addActionListener(e -> {
+            calculator.reset();
+            register = "";
+            textField.setText("0");
         });
     }
 

@@ -10,8 +10,8 @@ public class Calculator {
         OP_EQU
     }
 
-    private Long accumulator;
-    private Long register;
+    private Float accumulator;
+    private Float register;
     private Operation currentOp;
 
     public Calculator() {
@@ -19,7 +19,7 @@ public class Calculator {
     }
 
     public void reset() {
-        accumulator = 0L;
+        accumulator = 0f;
         currentOp = Operation.OP_NONE;
     }
 
@@ -59,15 +59,15 @@ public class Calculator {
         return currentOp;
     }
 
-    public Long getAccumulator() {
+    public Float getAccumulator() {
         return accumulator;
     }
 
-    public Long getRegister() {
+    public Float getRegister() {
         return register;
     }
 
-    public void setRegister(Long register) {
+    public void setRegister(Float register) {
         this.register = register;
     }
 }
