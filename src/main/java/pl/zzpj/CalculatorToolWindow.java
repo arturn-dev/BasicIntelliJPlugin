@@ -7,19 +7,19 @@ import static pl.zzpj.Calculator.Operation;
 
 public class CalculatorToolWindow {
     private JPanel grid;
-    private JButton a7Button;
-    private JButton a4Button;
-    private JButton a8Button;
-    private JButton a1Button;
-    private JButton a9Button;
-    private JButton a6Button;
-    private JButton a3Button;
-    private JButton a5Button;
-    private JButton a2Button;
-    private JButton plusMinusButton;
     private JButton a0Button;
+    private JButton a1Button;
+    private JButton a2Button;
+    private JButton a3Button;
+    private JButton a4Button;
+    private JButton a5Button;
+    private JButton a6Button;
+    private JButton a7Button;
+    private JButton a8Button;
+    private JButton a9Button;
+    private JButton plusMinusButton;
     private JButton dotButton;
-    private JTextField textField;
+    private JTextField resultTextField;
     private JButton backspaceButton;
     private JButton subButton;
     private JButton addButton;
@@ -28,6 +28,9 @@ public class CalculatorToolWindow {
     private JButton divButton;
     private JButton mulButton;
     private JButton percentButton;
+    private JList<Float> historyListView;
+    private JButton clearHistoryButton;
+    private DefaultListModel<Float> historyListModel;
 
     private String register;
 
@@ -40,30 +43,30 @@ public class CalculatorToolWindow {
     }
 
     private void initComponents() {
-        textField.setText(register);
+        resultTextField.setText(register);
+        historyListModel = new DefaultListModel<>();
+        historyListModel.addAll(calculator.getHistory());
+        historyListView.setModel(historyListModel);
 
         ActionListener numButtonsListener = e -> {
             register += ((JButton) e.getSource()).getText();
-            textField.setText(register);
+            resultTextField.setText(register);
         };
 
-        a7Button.addActionListener(numButtonsListener);
+        a0Button.addActionListener(numButtonsListener);
+        a1Button.addActionListener(numButtonsListener);
+        a2Button.addActionListener(numButtonsListener);
+        a3Button.addActionListener(numButtonsListener);
         a4Button.addActionListener(numButtonsListener);
+        a5Button.addActionListener(numButtonsListener);
+        a6Button.addActionListener(numButtonsListener);
+        a7Button.addActionListener(numButtonsListener);
         a8Button.addActionListener(numButtonsListener);
         a9Button.addActionListener(numButtonsListener);
-        a6Button.addActionListener(numButtonsListener);
-        a3Button.addActionListener(numButtonsListener);
-        a1Button.addActionListener(numButtonsListener);
-        a5Button.addActionListener(numButtonsListener);
-        a2Button.addActionListener(numButtonsListener);
-        a0Button.addActionListener(numButtonsListener);
 
         ActionListener opButtonsListener = e -> {
             JButton sourceButton = (JButton) e.getSource();
-            if (register.length() > 0)
-                calculator.setRegister(Float.parseFloat(register));
-            else
-                calculator.setRegister(0f);
+            calculator.setRegister(register.length() > 0 ? Float.parseFloat(register) : calculator.getRegister());
 
             if (sourceButton == addButton)
                 calculator.setOperation(Operation.OP_ADD);
@@ -73,11 +76,13 @@ public class CalculatorToolWindow {
                 calculator.setOperation(Operation.OP_MUL);
             else if (sourceButton == divButton)
                 calculator.setOperation(Operation.OP_DIV);
-            else if (sourceButton == equalsButton)
+            else if (sourceButton == equalsButton) {
                 calculator.setOperation(Operation.OP_EQU);
+                updateListView();
+            }
 
             register = "";
-            textField.setText(calculator.getAccumulator().toString());
+            resultTextField.setText(calculator.getAccumulator().toString());
         };
         subButton.addActionListener(opButtonsListener);
         addButton.addActionListener(opButtonsListener);
@@ -88,19 +93,28 @@ public class CalculatorToolWindow {
         backspaceButton.addActionListener(e -> {
             if (register.length() > 1) {
                 register = register.substring(0, register.length() - 1);
-                textField.setText(register);
-            }
-            else {
+                resultTextField.setText(register);
+            } else {
                 register = "";
-                textField.setText("0");
+                resultTextField.setText("0");
             }
         });
 
         cButton.addActionListener(e -> {
             calculator.reset();
             register = "";
-            textField.setText("0");
+            resultTextField.setText("0");
         });
+
+        clearHistoryButton.addActionListener(e -> {
+            calculator.clearHistory();
+            updateListView();
+        });
+    }
+
+    private void updateListView() {
+        historyListModel.clear();
+        historyListModel.addAll(calculator.getHistory());
     }
 
     public JPanel getContent() {
