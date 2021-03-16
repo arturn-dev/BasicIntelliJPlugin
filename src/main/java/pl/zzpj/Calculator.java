@@ -11,7 +11,9 @@ public class Calculator {
         OP_SUB,
         OP_MUL,
         OP_DIV,
-        OP_EQU
+        OP_EQU,
+        OP_PER,
+        OP_NEG
     }
     private List<Float> history;
     private Float accumulator;
@@ -29,7 +31,17 @@ public class Calculator {
     }
 
 
-    public void setOperation(Operation operation) {
+    public void performOperation(Operation operation) {
+        if (operation == Operation.OP_NEG) {
+            accumulator *= -1f;
+            currentOp = Operation.OP_NONE;
+            return;
+        } else if (operation == Operation.OP_PER) {
+            accumulator /= 100f;
+            currentOp = Operation.OP_NONE;
+            return;
+        }
+
         switch (currentOp) {
             case OP_ADD: {
                 accumulator += register;
