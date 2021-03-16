@@ -69,15 +69,19 @@ public class CalculatorToolWindow {
             calculator.setRegister(register.length() > 0 ? Float.parseFloat(register) : calculator.getRegister());
 
             if (sourceButton == addButton)
-                calculator.setOperation(Operation.OP_ADD);
+                calculator.performOperation(Operation.OP_ADD);
             else if (sourceButton == subButton)
-                calculator.setOperation(Operation.OP_SUB);
+                calculator.performOperation(Operation.OP_SUB);
             else if (sourceButton == mulButton)
-                calculator.setOperation(Operation.OP_MUL);
+                calculator.performOperation(Operation.OP_MUL);
             else if (sourceButton == divButton)
-                calculator.setOperation(Operation.OP_DIV);
+                calculator.performOperation(Operation.OP_DIV);
+            else if (sourceButton == percentButton)
+                calculator.performOperation(Operation.OP_PER);
+            else if (sourceButton == plusMinusButton)
+                calculator.performOperation(Operation.OP_NEG);
             else if (sourceButton == equalsButton) {
-                calculator.setOperation(Operation.OP_EQU);
+                calculator.performOperation(Operation.OP_EQU);
                 updateListView();
             }
 
@@ -89,6 +93,15 @@ public class CalculatorToolWindow {
         equalsButton.addActionListener(opButtonsListener);
         divButton.addActionListener(opButtonsListener);
         mulButton.addActionListener(opButtonsListener);
+        percentButton.addActionListener(opButtonsListener);
+        plusMinusButton.addActionListener(opButtonsListener);
+
+        dotButton.addActionListener(e -> {
+            if (!resultTextField.getText().contains(".")) {
+                register += ".";
+                resultTextField.setText(register);
+            }
+        });
 
         backspaceButton.addActionListener(e -> {
             if (register.length() > 1) {
